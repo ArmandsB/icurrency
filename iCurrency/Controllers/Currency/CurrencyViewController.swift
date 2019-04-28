@@ -16,8 +16,9 @@ class CurrencyViewController: UIViewController {
     let viewModel: CurrencyViewModelType = CurrencyViewModel(service: CurrencyService(service: ApiClient.shared),
                                                              baseCurrency: "EUR")
     
-    private var reloadTimer: Timer?
     let disposeBag = DisposeBag()
+    private var reloadTimer: Timer?
+    private let keyboardHandler = KeyboardHandler()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -35,9 +36,15 @@ class CurrencyViewController: UIViewController {
         super.viewDidLoad()
         self.title = "iCurrency"
         currencyView.tableView.tableFooterView = UIView()
-        currencyView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        currencyView.tableView.register(CurrencyTableViewCell.self, forCellReuseIdentifier: "Cell")
+        currencyView.tableView.rowHeight = 80
+        currencyView.tableView.backgroundColor = UIColor.groupTableViewBackground
+        currencyView.tableView.estimatedRowHeight = 80
+        currencyView.tableView.separatorStyle = .none
+        currencyView.tableView.keyboardDismissMode = .onDrag
         
         self.setupTimer()
+        self.keyboardHandler.delegate = self
         self.bindViewModels()
         self.viewModel.inputs.fetchDataAction.execute()
     }
@@ -77,9 +84,12 @@ private extension CurrencyViewController {
     func bindTableView(outputs: CurrencyViewModelOutputs) {
         let dataSource = RxTableViewSectionedAnimatedDataSource<CurrencyViewModel.TableViewSection>(
             configureCell: { dataSource, tableView, indexPath, item in
-                let cell = UITableViewCell(style: .value1, reuseIdentifier: "Cell")
-                cell.textLabel?.text = item.name
-                cell.detailTextLabel?.text = "\(item.rate)"
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? CurrencyTableViewCell else { return UITableViewCell() }
+                cell.cellViewModel = item
+                cell.selectionStyle = .none
+                cell.didChangeInput = { [weak cell] input in
+                   cell?.cellViewModel?.inputs.setInputValue(input: input)
+                }
                 return cell
         })
         
@@ -90,6 +100,26 @@ private extension CurrencyViewController {
             .bind(to: currencyView.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        Observable
+            .zip(currencyView.tableView.rx.modelSelected(CurrencyCellViewModel.self), currencyView.tableView.rx.itemSelected)
+            .flatMap { [weak self] model, indexPath -> Observable<(CurrencyCellViewModel, IndexPath, CurrencyCellViewModel?)> in
+                guard let self = self else { return .empty() }
+                return Observable.zip(Observable.just(model),
+                                      Observable.just(indexPath),
+                                      self.viewModel.outputs.activeCurrency)
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] model, indexPath, activeCurrency  in
+                guard let self = self else { return }
+                if let activeCurrency = activeCurrency, activeCurrency.currency.value == model.currency.value {
+                    if let cell = self.currencyView.tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
+                        cell.startEdit()
+                    }
+                }
+                self.viewModel.inputs.selectCurrency.execute(model)
+                self.currencyView.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -100,5 +130,17 @@ private extension CurrencyViewController {
             guard let self = self else { return }
             self.viewModel.inputs.fetchDataAction.execute()
         })
+    }
+}
+
+extension CurrencyViewController: KeyboardHandlerDelegate {
+    
+    func keyboardFrameDidChange(size: CGRect, animation: UIView.AnimationCurve, duration: TimeInterval, userInfo: JSON) {
+        UIView.animate(withDuration: duration, delay: 0.0, options: animation.toOptions(), animations: {
+            self.currencyView.tableView.contentInset.bottom = size.height
+            self.currencyView.tableView.scrollIndicatorInsets = self.currencyView.tableView.contentInset
+        }) { (finished) in
+            
+        }
     }
 }

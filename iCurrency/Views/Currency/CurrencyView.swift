@@ -17,7 +17,7 @@ class CurrencyView: UIView {
     
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .white
+        self.backgroundColor = UIColor.groupTableViewBackground
         
         self.addSubview(tableView)
         tableView.snp.makeConstraints { make in

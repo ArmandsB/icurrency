@@ -32,7 +32,8 @@ extension CurrencyService: CurrencyServiceEndpoints {
                         currencies.append(Currency(name: baseCurrency, rate: 1.0000))
                         let keys = Array(rates.keys).sorted()
                         keys.forEach { key in
-                             currencies.append(Currency(name: key, rate: rates[key] as? Double ?? 0.0))
+                            let value = rates[key] as? Double ?? 0.0
+                            currencies.append(Currency(name: key, rate: value))
                         }
                     }
                     return .just(.success(currencies))

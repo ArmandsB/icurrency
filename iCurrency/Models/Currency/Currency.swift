@@ -16,10 +16,9 @@ struct Currency: Equatable {
     static func ==(lhs: Currency, rhs: Currency) -> Bool {
         return lhs.name == rhs.name
     }
-}
-
-extension Currency: IdentifiableType {
-    var identity: String {
-        return name
+    
+    func converRate(to currency: Currency) -> Double {
+        return currency.rate / self.rate
     }
 }
+

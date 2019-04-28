@@ -23,6 +23,10 @@
 		2C5FF79B2274C483005B7C65 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79A2274C483005B7C65 /* ApiRequest.swift */; };
 		2C5FF79D2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79C2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift */; };
 		2C5FF79F2274C606005B7C65 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79E2274C606005B7C65 /* ApiService.swift */; };
+		2CB24A152275A32900D444C8 /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A142275A32900D444C8 /* CurrencyTableViewCell.swift */; };
+		2CB24A182275A94900D444C8 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A172275A94900D444C8 /* UIColor+hex.swift */; };
+		2CB24A1B2275CB2C00D444C8 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */; };
+		2CB24A1E2275ED2500D444C8 /* UITextField+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */; };
 		989FD254B5571F08DE67A476 /* Pods_iCurrency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24A24C89C80C085D9B3FE297 /* Pods_iCurrency.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +61,10 @@
 		2C5FF79A2274C483005B7C65 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		2C5FF79C2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceEndpoints.swift; sourceTree = "<group>"; };
 		2C5FF79E2274C606005B7C65 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		2CB24A142275A32900D444C8 /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
+		2CB24A172275A94900D444C8 /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
+		2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+DoneButton.swift"; sourceTree = "<group>"; };
 		A32503114D044B68D6DDA719 /* Pods_iCurrencyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iCurrencyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4ABA0E0A7654860F67CB103 /* Pods-iCurrencyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCurrencyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iCurrencyTests/Pods-iCurrencyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BEEA8281FC4857D507CBAB68 /* Pods-iCurrencyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCurrencyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-iCurrencyTests/Pods-iCurrencyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -156,6 +164,8 @@
 		2C5FF7812274BF8B005B7C65 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2CB24A192275CB1B00D444C8 /* Keyboardhandler */,
+				2CB24A162275A93300D444C8 /* Extensions */,
 				2C5FF7982274C3AF005B7C65 /* Constants.swift */,
 			);
 			path = Helpers;
@@ -190,6 +200,7 @@
 		2C5FF7872274C0D6005B7C65 /* Currency */ = {
 			isa = PBXGroup;
 			children = (
+				2CB24A132275A30F00D444C8 /* Cells */,
 				2C5FF7882274C0E9005B7C65 /* CurrencyView.swift */,
 			);
 			path = Currency;
@@ -229,6 +240,31 @@
 				2C5FF79E2274C606005B7C65 /* ApiService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		2CB24A132275A30F00D444C8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2CB24A142275A32900D444C8 /* CurrencyTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		2CB24A162275A93300D444C8 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2CB24A172275A94900D444C8 /* UIColor+hex.swift */,
+				2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2CB24A192275CB1B00D444C8 /* Keyboardhandler */ = {
+			isa = PBXGroup;
+			children = (
+				2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */,
+			);
+			path = Keyboardhandler;
 			sourceTree = "<group>";
 		};
 		9847C74ED8B6CEC0C601C5DD /* Pods */ = {
@@ -433,14 +469,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CB24A1B2275CB2C00D444C8 /* KeyboardHandler.swift in Sources */,
 				2C5FF7952274C21C005B7C65 /* Currency.swift in Sources */,
 				2C0FA8A72274BB07007155EC /* AppDelegate.swift in Sources */,
 				2C5FF79F2274C606005B7C65 /* ApiService.swift in Sources */,
 				2C5FF78C2274C151005B7C65 /* CurrencyViewModel.swift in Sources */,
 				2C5FF7972274C367005B7C65 /* ApiClient.swift in Sources */,
+				2CB24A152275A32900D444C8 /* CurrencyTableViewCell.swift in Sources */,
 				2C5FF7922274C1EC005B7C65 /* CurrencyService.swift in Sources */,
+				2CB24A182275A94900D444C8 /* UIColor+hex.swift in Sources */,
 				2C5FF79D2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift in Sources */,
 				2C5FF78E2274C15B005B7C65 /* CurrencyCellViewModel.swift in Sources */,
+				2CB24A1E2275ED2500D444C8 /* UITextField+DoneButton.swift in Sources */,
 				2C5FF7892274C0E9005B7C65 /* CurrencyView.swift in Sources */,
 				2C5FF7852274BFBF005B7C65 /* CurrencyViewController.swift in Sources */,
 				2C5FF79B2274C483005B7C65 /* ApiRequest.swift in Sources */,
