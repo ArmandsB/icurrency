@@ -10,16 +10,16 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  
+
   var window: UIWindow?
-  
-  
-  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    
+
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
     #if DEBUG
       guard Constants.Tests.isUnitTesting() == false else { return false }
     #endif
-    
+
     self.window = UIWindow(frame: UIScreen.main.bounds)
     let rootViewController = UINavigationController(rootViewController: CurrencyViewController())
     self.window?.rootViewController = rootViewController
@@ -27,4 +27,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return true
   }
 }
-

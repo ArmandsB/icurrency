@@ -15,11 +15,11 @@ protocol ApiService {
 }
 
 extension ApiService {
-  
+
   func setEnvironment(environment: ApiClient.Environment) {
     self.service.environment = environment
   }
-  
+
   func setPredefiniedResponse(data: [Data]) {
     guard self.service.environment == .test else { return }
     self.service.predefiniedResponse = data

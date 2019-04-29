@@ -31,63 +31,63 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
   var titleAttributedString: Observable<NSAttributedString>
   var valueAttributedString: Observable<NSAttributedString>
   var rateAttributedString: Observable<NSAttributedString>
-  
+
   var isActive: Observable<Bool>
   private let isActiveProperty: BehaviorRelay<Bool> = .init(value: false)
-  
+
   var inputValue: Observable<Double>
   private let inputValueProperty: BehaviorRelay<Double> = .init(value: 0)
-  
+
   private let activeCurrencyObservable: Observable<CurrencyCellViewModelType?>
-  
+
   let disposeBag = DisposeBag()
   private var disposeableInputSubscribe: Disposable?
-  
+
   init(currency: Currency, activeCurrencyObservable: Observable<CurrencyCellViewModelType?>) {
     self.currency = .init(value: currency)
     self.activeCurrencyObservable = activeCurrencyObservable
-    
-    
-    
+
     titleAttributedString = self.currency.map({ currency -> NSAttributedString in
       return NSAttributedString(string: currency.name,
                                 attributes: [.font: UIFont.preferredFont(forTextStyle: .title3)])
     })
-    
-    
+
     isActive = isActiveProperty.asObservable()
     inputValue = inputValueProperty.asObservable()
-    
+
     let currencyFormatter = NumberFormatter()
     currencyFormatter.numberStyle = .decimal
     currencyFormatter.groupingSeparator = " "
     currencyFormatter.minimumFractionDigits = 4
     currencyFormatter.maximumFractionDigits = 4
-    
+
     valueAttributedString = inputValue.map({ value -> NSAttributedString in
       let convertRateFormatted = currencyFormatter.string(from: NSNumber(value: value)) ?? " - "
       return NSAttributedString(string: convertRateFormatted,
                                 attributes: [.font: UIFont.preferredFont(forTextStyle: .title3)])
     })
-    
+
     let activeCurrencyObservable = self.activeCurrencyObservable
       .flatMap { activeCurrenyOptional  -> Observable<CurrencyCellViewModelType> in
         guard let activeCurrency = activeCurrenyOptional else { return .empty() }
         return .just(activeCurrency)
     }
-    
-    let combineCurrenyAndActive = Observable.combineLatest(self.currency.asObservable(), activeCurrencyObservable) { ($0, $1) }
+
+    let combineCurrenyAndActive = Observable.combineLatest(self.currency.asObservable(),
+                                                           activeCurrencyObservable) { ($0, $1) }
+
     rateAttributedString = combineCurrenyAndActive.map { currency, activeCurrency -> NSAttributedString in
       let convertRate = currency.converRate(to: activeCurrency.outputs.currency.value)
       let convertRateFormatted = currencyFormatter.string(from: NSNumber(value: convertRate)) ?? " - "
-      let text = "1 \(currency.name) = \(convertRateFormatted) \(activeCurrency.outputs.currency.value.name)" // 1 USD = 1.1111 EUR
+      var text = "1 \(currency.name) = \(convertRateFormatted)"
+      text += " \(activeCurrency.outputs.currency.value.name)" // 1 USD = 1.1111 EUR
       return NSAttributedString(string: text,
                                 attributes: [.font: UIFont.preferredFont(forTextStyle: .footnote),
                                              .foregroundColor: UIColor.gray ])
     }
-    
+
     self.subscribeActiveCurrencyInputChange()
-    
+
     activeCurrencyObservable
       .subscribe(onNext: { [weak self] activeCurrencyObservable in
         guard let self = self else { return }
@@ -96,23 +96,27 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
       })
       .disposed(by: disposeBag)
   }
-  
+
+  deinit {
+    self.disposeableInputSubscribe?.dispose()
+  }
+
   func merge(currency: Currency) {
     self.currency.accept(currency)
   }
-  
+
   func editInputValue(input: Double) {
     guard self.isActiveProperty.value else { return }
     self.inputValueProperty.accept(input)
   }
-  
+
   private func subscribeActiveCurrencyInputChange() {
     let activeCurrencyObservable = self.activeCurrencyObservable
       .flatMap { activeCurrenyOptional  -> Observable<CurrencyCellViewModelType> in
         guard let activeCurrency = activeCurrenyOptional else { return .empty() }
         return .just(activeCurrency)
     }
-    
+
     activeCurrencyObservable
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] activeCurrencyModel in
@@ -121,9 +125,9 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
         let currency = self.currency.value
         let activeCurrency = activeCurrencyModel.outputs.currency.value
         guard activeCurrency != currency else { return }
-        
+
         // To prevent endless loop, at beginning we listen for the active currency and then listen its input value.
-        
+
         let combine = Observable.combineLatest(activeCurrencyModel.outputs.inputValue,
                                                activeCurrencyModel.outputs.currency.asObservable(),
                                                self.currency.asObservable()) { ($0, $1, $2) }
@@ -139,11 +143,10 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
   }
 }
 
-protocol CurrencyCellViewModelType  {
+protocol CurrencyCellViewModelType {
   var inputs: CurrencyCellViewModelInput { get }
   var outputs: CurrencyCellViewModelOutput { get }
 }
-
 
 extension CurrencyCellViewModel: CurrencyCellViewModelType {
   var inputs: CurrencyCellViewModelInput { return self }
@@ -155,8 +158,8 @@ extension CurrencyCellViewModel: IdentifiableType {
 }
 
 extension CurrencyCellViewModel: Equatable {
-  
-  static func ==(lhs: CurrencyCellViewModel, rhs: CurrencyCellViewModel) -> Bool {
+
+  static func == (lhs: CurrencyCellViewModel, rhs: CurrencyCellViewModel) -> Bool {
     return lhs.outputs.currency.value == rhs.outputs.currency.value
   }
 }

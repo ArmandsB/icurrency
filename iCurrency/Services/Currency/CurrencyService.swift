@@ -9,8 +9,8 @@
 import Foundation
 import RxSwift
 
-class CurrencyService: ApiService  {
-  
+class CurrencyService: ApiService {
+
   let service: ApiClient
   init(service: ApiClient) {
     self.service = service
@@ -18,7 +18,7 @@ class CurrencyService: ApiService  {
 }
 
 extension CurrencyService: CurrencyServiceEndpoints {
-  
+
   func fetchCurrencies(baseCurrency: String) -> Observable<Result<[Currency], ApiError>> {
     let apiRequest = ApiRequest(method: .GET,
                                 endpoint: "latest",
@@ -28,13 +28,7 @@ extension CurrencyService: CurrencyServiceEndpoints {
         switch response {
         case let .success(data):
           if let rates = data["rates"] as? JSON {
-            var currencies: [Currency] = []
-            currencies.append(Currency(name: baseCurrency, rate: 1.0000))
-            let keys = Array(rates.keys).sorted()
-            keys.forEach { key in
-              let value = rates[key] as? Double ?? 0.0
-              currencies.append(Currency(name: key, rate: value))
-            }
+            let currencies = self.parseCurrenciesList(baseCurrency: baseCurrency, rates: rates)
             return .just(.success(currencies))
           } else {
             return .just(.failure(.invalidResponse))
@@ -43,5 +37,16 @@ extension CurrencyService: CurrencyServiceEndpoints {
           return Observable.just(.failure(error))
         }
     }
+  }
+
+  private func parseCurrenciesList(baseCurrency: String, rates: JSON) -> [Currency] {
+    var currencies: [Currency] = []
+    currencies.append(Currency(name: baseCurrency, rate: 1.0000))
+    let keys = Array(rates.keys).sorted()
+    keys.forEach { key in
+      let value = rates[key] as? Double ?? 0.0
+      currencies.append(Currency(name: key, rate: value))
+    }
+    return currencies
   }
 }

@@ -10,7 +10,7 @@ import XCTest
 @testable import iCurrency
 
 class CurrencyTests: XCTestCase {
-
+  
   func testCurrencyModel() {
     
     let currency1 = Currency(name: "EUR", rate: 1.1234)

@@ -14,7 +14,7 @@ import XCTest
 @testable import iCurrency
 
 class CurrencyViewModelTests: XCTestCase {
-
+  
   let currencyService = CurrencyService(service: ApiClient())
   let disposeBag = DisposeBag()
   var viewModel: CurrencyViewModelType!
@@ -113,7 +113,7 @@ extension CurrencyViewModelTests {
 // MARK: Outputs
 
 extension CurrencyViewModelTests {
-
+  
   func testOnShowError() {
     XCTAssertNil(try! viewModel.outputs.onShowError.toBlocking().first()!)
     
@@ -132,7 +132,7 @@ extension CurrencyViewModelTests {
     XCTAssertNotNil(record)
     
     currenciesListData = Data.json(bundle: Bundle(for: type(of: self)),
-                                       fileName: TestMockups.currencyList1Success.rawValue) ?? Data()
+                                   fileName: TestMockups.currencyList1Success.rawValue) ?? Data()
     currencyService.setPredefiniedResponse(data: [currenciesListData])
     viewModel.inputs.fetchDataAction.execute()
     

@@ -14,7 +14,7 @@ import XCTest
 @testable import iCurrency
 
 class CurrencyCellViewModelTests: XCTestCase {
-
+  
   let disposeBag = DisposeBag()
   let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
   var activeCurrencyObservable: Observable<CurrencyCellViewModelType?>!
@@ -43,7 +43,7 @@ class CurrencyCellViewModelTests: XCTestCase {
     
     currency = Currency(name: "USD", rate: 1.1111)
     let notEqualViewModel = CurrencyCellViewModel(currency: currency,
-                                                 activeCurrencyObservable: activeCurrencyObservable)
+                                                  activeCurrencyObservable: activeCurrencyObservable)
     
     XCTAssertEqual(viewModel, equalViewModel)
     XCTAssertNotEqual(viewModel, notEqualViewModel)
@@ -53,7 +53,7 @@ class CurrencyCellViewModelTests: XCTestCase {
 // MARK: Inputs
 
 extension CurrencyCellViewModelTests {
-
+  
   func testMergeCurrency() {
     XCTAssertEqual(viewModel.outputs.currency.value.rate, 1.1234)
     let currency = Currency(name: "EUR", rate: 1.1111)
@@ -141,7 +141,7 @@ extension CurrencyCellViewModelTests {
     viewModel.inputs.merge(currency: currency)
     
     titleAttributedString = NSAttributedString(string: currency.name,
-                                              attributes: [.font: UIFont.preferredFont(forTextStyle: .title3)])
+                                               attributes: [.font: UIFont.preferredFont(forTextStyle: .title3)])
     
     let record = titleObserver.events.last!.value.element!
     XCTAssertEqual(record, titleAttributedString)
@@ -178,7 +178,7 @@ extension CurrencyCellViewModelTests {
     
     let activeCurrency = Currency(name: "EUR", rate: 1)
     let activeViewModel = CurrencyCellViewModel(currency: activeCurrency,
-                                      activeCurrencyObservable: activeCurrencyObservable)
+                                                activeCurrencyObservable: activeCurrencyObservable)
     activeCurrencyProperty.accept(activeViewModel)
     
     let currency = Currency(name: "USD", rate: 1.1111)

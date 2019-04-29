@@ -16,35 +16,35 @@ enum ApiError: Error {
 }
 
 class ApiClient {
-  
+
   enum Environment {
     case live
     case test
   }
-  
+
   static let shared = ApiClient()
   private let baseURL = Constants.URLs.currencyApi
-  
+
   var environment: Environment = .live
   var predefiniedResponse: [Data] = []
-  
+
   func request<T>(request: ApiRequest, type: T.Type) -> Observable<Result<T, ApiError>> {
     return Observable<Result<T, ApiError>>.create { [unowned self] observer in
       var task: URLSessionDataTask?
-      
+
       if let urlReqeust = request.urlReqeust(baseURL: self.baseURL) {
-        
+
         #if DEBUG
-        print("\n\n===== REQUEST ====== \n\n\(urlReqeust.url?.absoluteString ?? "")")
+          print("\n\n===== REQUEST ====== \n\n\(urlReqeust.url?.absoluteString ?? "")")
         #endif
-        
+
         let proccessBlock: (Data, AnyObserver<Result<T, ApiError>>) -> Void = { data, observer in
           do {
             if let json = try JSONSerialization.jsonObject(with: data, options: []) as? T {
               observer.onNext(.success(json))
-              
+
               #if DEBUG
-              print("\n\n===== RESPONSE ====== \n\n\(json)")
+                print("\n\n===== RESPONSE ====== \n\n\(json)")
               #endif
             } else {
               observer.onNext(.failure(.invalidResponse))
@@ -53,13 +53,17 @@ class ApiClient {
             observer.onNext(.failure(.invalidResponse))
           }
         }
-        
-        if self.environment == .test, let data = self.predefiniedResponse.first {
-          proccessBlock(data, observer)
-          self.predefiniedResponse.remove(at: 0)
+
+        if self.environment == .test {
+          if let data = self.predefiniedResponse.first {
+            proccessBlock(data, observer)
+            self.predefiniedResponse.remove(at: 0)
+          } else {
+            observer.onNext(.failure(.invalidResponse))
+          }
           observer.onCompleted()
         } else {
-          task = URLSession.shared.dataTask(with: urlReqeust) { data, response, error in
+          task = URLSession.shared.dataTask(with: urlReqeust) { data, _, error in
             if let error = error {
               let apiError: ApiError = .urlRequest(error)
               observer.onNext(.failure(apiError))
@@ -76,13 +80,10 @@ class ApiClient {
         observer.onNext(.failure(.invalidRequest))
         observer.onCompleted()
       }
-      
-      
+
       return Disposables.create {
         task?.cancel()
       }
     }
   }
-  
-  
 }

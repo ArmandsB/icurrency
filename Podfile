@@ -11,6 +11,7 @@ def common_pods
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'Action'
+  pod 'SwiftLint', :configurations => ['Debug']
 end
 
 target 'iCurrency' do

@@ -12,13 +12,12 @@ import RxDataSources
 struct Currency: Equatable {
   let name: String
   let rate: Double
-  
-  static func ==(lhs: Currency, rhs: Currency) -> Bool {
+
+  static func == (lhs: Currency, rhs: Currency) -> Bool {
     return lhs.name == rhs.name
   }
-  
+
   func converRate(to currency: Currency) -> Double {
     return currency.rate / self.rate
   }
 }
-

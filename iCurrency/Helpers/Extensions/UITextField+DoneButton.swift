@@ -10,7 +10,7 @@ import UIKit
 
 extension UITextField {
   typealias SelectionAction = (target: Any, action: Selector)
-  
+
   func addDoneToolbar(onDone: SelectionAction? = nil) {
     let onDone = onDone ?? (target: self, action: #selector(doneButtonTapped))
     let toolbar: UIToolbar = UIToolbar()
@@ -22,7 +22,7 @@ extension UITextField {
     toolbar.sizeToFit()
     self.inputAccessoryView = toolbar
   }
-  
+
   // Default actions:
   @objc func doneButtonTapped() { self.resignFirstResponder() }
 }
