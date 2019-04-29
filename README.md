@@ -19,6 +19,7 @@ Real-time Currency list iOS app.
 
 # Unit & Snapshot testing
 
-Schema: *iCurrencyTests*
-Simulator: *iPhone XS* (to succeed snapshot tests, need to set specific device)
+Schema: iCurrencyTests
+
+Simulator: iPhone XS (to succeed snapshot tests, need to set specific device)
 
