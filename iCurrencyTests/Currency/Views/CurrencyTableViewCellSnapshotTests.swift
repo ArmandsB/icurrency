@@ -21,7 +21,7 @@ class CurrencyTableViewCellSnapshotTests: FBSnapshotTestCase {
   }
   
   func testUnactiveTableViewCell() {
-    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
     let activeCurrencyObservable = activeCurrencyProperty.asObservable()
     let activeCurrency = Currency(name: "EUR", rate: 1.12345)
     let activeCellVieModel = CurrencyCellViewModel(currency: activeCurrency,
@@ -32,7 +32,7 @@ class CurrencyTableViewCellSnapshotTests: FBSnapshotTestCase {
     let unactiveCurrencyCellViewModel = CurrencyCellViewModel(currency: unactiveCurrency,
                                                               activeCurrencyObservable: activeCurrencyObservable)
     
-    activeCellVieModel.inputs.setInputValue(input: 1000)
+    activeCellVieModel.inputs.editInputValue(input: 1000)
     
     let tableViewCell = CurrencyTableViewCell(style: .default, reuseIdentifier: "Cell")
     tableViewCell.cellViewModel = unactiveCurrencyCellViewModel
@@ -48,13 +48,13 @@ class CurrencyTableViewCellSnapshotTests: FBSnapshotTestCase {
   }
   
   func testActiveTableViewCell() {
-    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
     let activeCurrencyObservable = activeCurrencyProperty.asObservable()
     let activeCurrency = Currency(name: "EUR", rate: 1.12345)
     let activeCellVieModel = CurrencyCellViewModel(currency: activeCurrency,
                                                    activeCurrencyObservable: activeCurrencyObservable)
     activeCurrencyProperty.accept(activeCellVieModel)
-    activeCellVieModel.inputs.setInputValue(input: 1000)
+    activeCellVieModel.inputs.editInputValue(input: 1000)
     
     let tableViewCell = CurrencyTableViewCell(style: .default, reuseIdentifier: "Cell")
     tableViewCell.cellViewModel = activeCellVieModel

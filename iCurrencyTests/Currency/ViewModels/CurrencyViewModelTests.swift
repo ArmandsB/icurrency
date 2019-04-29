@@ -69,7 +69,7 @@ extension CurrencyViewModelTests {
     let currentActiveCurrency = try! viewModel.outputs.activeCurrency.toBlocking().first()!
     XCTAssertNil(currentActiveCurrency)
     
-    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
     let activeCurrencyObservable = activeCurrencyProperty.asObservable()
     let activeCurrency = Currency(name: "EUR", rate: 1.12345)
     let activeCellVieModel = CurrencyCellViewModel(currency: activeCurrency,
@@ -80,7 +80,7 @@ extension CurrencyViewModelTests {
     currencyService.setPredefiniedResponse(data: [currenciesListData])
     _ = viewModel.inputs.fetchDataAction.execute().toBlocking()
     
-    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModel?.self)
+    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModelType?.self)
     viewModel.outputs.activeCurrency
       .subscribe(activeCurrencyObserver)
       .disposed(by: disposeBag)
@@ -88,16 +88,16 @@ extension CurrencyViewModelTests {
     
     XCTAssertEqual(activeCurrencyObserver.events.count, 2)
     let record = activeCurrencyObserver.events.last!.value.element!
-    XCTAssertEqual(activeCellVieModel.currency.value, record!.currency.value)
+    XCTAssertEqual(activeCellVieModel.currency.value, record!.outputs.currency.value)
   }
   
   func testSelectCurrencyEmptyAction() {
-    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
     let activeCurrencyObservable = activeCurrencyProperty.asObservable()
     let activeCurrency = Currency(name: "EUR", rate: 1.12345)
     let activeCellVieModel = CurrencyCellViewModel(currency: activeCurrency,
                                                    activeCurrencyObservable: activeCurrencyObservable)
-    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModel?.self)
+    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModelType?.self)
     viewModel.outputs.activeCurrency
       .subscribe(activeCurrencyObserver)
       .disposed(by: disposeBag)
@@ -178,7 +178,7 @@ extension CurrencyViewModelTests {
   }
   
   func testActiveCurrency() {
-    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+    let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
     let activeCurrencyObservable = activeCurrencyProperty.asObservable()
     let activeCurrency = Currency(name: "EUR", rate: 1.12345)
     let activeCellVieModel = CurrencyCellViewModel(currency: activeCurrency,
@@ -189,13 +189,13 @@ extension CurrencyViewModelTests {
     currencyService.setPredefiniedResponse(data: [currenciesListData])
     _ = viewModel.inputs.fetchDataAction.execute().toBlocking()
     
-    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModel?.self)
+    let activeCurrencyObserver = scheduler.createObserver(CurrencyCellViewModelType?.self)
     viewModel.outputs.activeCurrency
       .subscribe(activeCurrencyObserver)
       .disposed(by: disposeBag)
     viewModel.inputs.selectCurrency.execute(activeCellVieModel)
     
     let record = activeCurrencyObserver.events.last!.value.element!
-    XCTAssertEqual(activeCellVieModel.currency.value, record!.currency.value)
+    XCTAssertEqual(activeCellVieModel.currency.value, record!.outputs.currency.value)
   }
 }

@@ -88,7 +88,7 @@ private extension CurrencyViewController {
         cell.cellViewModel = item
         cell.selectionStyle = .none
         cell.didChangeInput = { [weak cell] input in
-          cell?.cellViewModel?.inputs.setInputValue(input: input)
+          cell?.cellViewModel?.inputs.editInputValue(input: input)
         }
         return cell
     })
@@ -101,8 +101,8 @@ private extension CurrencyViewController {
       .disposed(by: disposeBag)
     
     Observable
-      .zip(currencyView.tableView.rx.modelSelected(CurrencyCellViewModel.self), currencyView.tableView.rx.itemSelected)
-      .flatMap { [weak self] model, indexPath -> Observable<(CurrencyCellViewModel, IndexPath, CurrencyCellViewModel?)> in
+      .zip(currencyView.tableView.rx.modelSelected(CurrencyCellViewModelType.self), currencyView.tableView.rx.itemSelected)
+      .flatMap { [weak self] model, indexPath -> Observable<(CurrencyCellViewModelType, IndexPath, CurrencyCellViewModelType?)> in
         guard let self = self else { return .empty() }
         return Observable.zip(Observable.just(model),
                               Observable.just(indexPath),
@@ -111,7 +111,9 @@ private extension CurrencyViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] model, indexPath, activeCurrency  in
         guard let self = self else { return }
-        if let activeCurrency = activeCurrency, activeCurrency.currency.value == model.currency.value {
+        if let activeCurrency = activeCurrency,
+          activeCurrency.outputs.currency.value == model.outputs.currency.value {
+          
           if let cell = self.currencyView.tableView.cellForRow(at: indexPath) as? CurrencyTableViewCell {
             cell.startEdit()
           }
@@ -127,7 +129,7 @@ private extension CurrencyViewController {
   
   func setupTimer() {
     #if DEBUG
-      guard Constants.Tests.isUnitTesting() == false else { return }
+    guard Constants.Tests.isUnitTesting() == false else { return }
     #endif
     
     self.reloadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in

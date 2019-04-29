@@ -10,9 +10,9 @@ import Foundation
 import RxSwift
 
 enum ApiError: Error {
-    case invalidRequest
-    case invalidResponse
-    case urlRequest(Error)
+  case invalidRequest
+  case invalidResponse
+  case urlRequest(Error)
 }
 
 class ApiClient {
@@ -35,7 +35,7 @@ class ApiClient {
       if let urlReqeust = request.urlReqeust(baseURL: self.baseURL) {
         
         #if DEBUG
-          print("\n\n===== REQUEST ====== \n\n\(urlReqeust.url?.absoluteString ?? "")")
+        print("\n\n===== REQUEST ====== \n\n\(urlReqeust.url?.absoluteString ?? "")")
         #endif
         
         let proccessBlock: (Data, AnyObserver<Result<T, ApiError>>) -> Void = { data, observer in
@@ -44,7 +44,7 @@ class ApiClient {
               observer.onNext(.success(json))
               
               #if DEBUG
-                print("\n\n===== RESPONSE ====== \n\n\(json)")
+              print("\n\n===== RESPONSE ====== \n\n\(json)")
               #endif
             } else {
               observer.onNext(.failure(.invalidResponse))

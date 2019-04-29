@@ -14,14 +14,14 @@ import RxDataSources
 
 protocol CurrencyViewModelInputs {
   var fetchDataAction: CocoaAction { get }
-  var selectCurrency: Action<CurrencyCellViewModel, Void> { get }
+  var selectCurrency: Action<CurrencyCellViewModelType, Void> { get }
 }
 
 protocol CurrencyViewModelOutputs {
   var onShowError: Driver<String?> { get }
   var onShowSpinner: Driver<Bool> { get }
   var currencies: Driver<[CurrencyCellViewModel]> { get }
-  var activeCurrency: Observable<CurrencyCellViewModel?> { get }
+  var activeCurrency: Observable<CurrencyCellViewModelType?> { get }
 }
 
 class CurrencyViewModel: CurrencyViewModelInputs, CurrencyViewModelOutputs {
@@ -41,8 +41,8 @@ class CurrencyViewModel: CurrencyViewModelInputs, CurrencyViewModelOutputs {
   var currencies: Driver<[CurrencyCellViewModel]>
   private let currenciesProperty: BehaviorRelay<[CurrencyCellViewModel]> = .init(value: [])
   
-  var activeCurrency: Observable<CurrencyCellViewModel?>
-  private let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModel?> = .init(value: nil)
+  var activeCurrency: Observable<CurrencyCellViewModelType?>
+  private let activeCurrencyProperty: BehaviorRelay<CurrencyCellViewModelType?> = .init(value: nil)
   
   init(service: CurrencyServiceEndpoints, baseCurrency: String) {
     self.service = service
@@ -60,12 +60,13 @@ class CurrencyViewModel: CurrencyViewModelInputs, CurrencyViewModelOutputs {
     }
   }()
   
-  lazy var selectCurrency: Action<CurrencyCellViewModel, Void> = {
-    return Action<CurrencyCellViewModel, Void> { input in
+  lazy var selectCurrency: Action<CurrencyCellViewModelType, Void> = {
+    return Action<CurrencyCellViewModelType, Void> { input in
       guard let index = self.currenciesProperty.value.firstIndex(where: { $0.outputs.currency.value == input.outputs.currency.value }) else { return .empty() }
       var currencies = self.currenciesProperty.value
+      let selectedCurrency = currencies[index]
       currencies.remove(at: index)
-      currencies.insert(input, at: 0)
+      currencies.insert(selectedCurrency, at: 0)
       self.currenciesProperty.accept(currencies)
       self.activeCurrencyProperty.accept(input)
       return .just(())
@@ -107,9 +108,9 @@ private extension CurrencyViewModel {
           }
           
           if self.activeCurrencyProperty.value == nil {
-            let activeCellViewModel = currenciesCellViewModels.first(where: { $0.currency.value.name == self.baseCurrency })
+            let activeCellViewModel = currenciesCellViewModels.first(where: { $0.outputs.currency.value.name == self.baseCurrency })
             self.activeCurrencyProperty.accept(activeCellViewModel)
-            activeCellViewModel?.inputs.setInputValue(input: 1000)
+            activeCellViewModel?.inputs.editInputValue(input: 1000)
           }
           
           if let activeCurrency = self.activeCurrencyProperty.value,

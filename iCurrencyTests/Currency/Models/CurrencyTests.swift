@@ -11,7 +11,7 @@ import XCTest
 
 class CurrencyTests: XCTestCase {
 
-  func testCurrenctModel() {
+  func testCurrencyModel() {
     
     let currency1 = Currency(name: "EUR", rate: 1.1234)
     let currency2 = Currency(name: "EUR", rate: 1.1234)
@@ -21,5 +21,12 @@ class CurrencyTests: XCTestCase {
     XCTAssertEqual(currency1.rate, 1.1234)
     XCTAssertEqual(currency1, currency2)
     XCTAssertNotEqual(currency1, currency3)
+  }
+  
+  func testCurrencyConvert() {
+    let currency1 = Currency(name: "CZK", rate: 1.4543)
+    let currency2 = Currency(name: "USD", rate: 1.1111)
+    let roundRate = Double(round(10000*currency1.converRate(to: currency2))/10000)
+    XCTAssertEqual(roundRate, 0.7640)
   }
 }

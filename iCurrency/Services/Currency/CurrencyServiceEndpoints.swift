@@ -10,5 +10,5 @@ import Foundation
 import RxSwift
 
 protocol CurrencyServiceEndpoints {
-    func fetchCurrencies(baseCurrency: String) -> Observable<Result<[Currency], ApiError>>
+  func fetchCurrencies(baseCurrency: String) -> Observable<Result<[Currency], ApiError>>
 }
