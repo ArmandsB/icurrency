@@ -2,19 +2,25 @@
 
 platform :ios, '12.2'
 # ignore all warnings from all pods
+use_frameworks!
 inhibit_all_warnings!
 
-target 'iCurrency' do
-  use_frameworks!
+def common_pods
   pod 'SnapKit', '~> 5.0.0'
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'Action'
+end
 
-  target 'iCurrencyTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+target 'iCurrency' do
+  common_pods
+end
 
+target 'iCurrencyTests' do
+  inherit! :search_paths
+  common_pods
+  pod 'iOSSnapshotTestCase'
+  pod 'RxTest'
+  pod 'RxBlocking'
 end

@@ -3,6 +3,13 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - Differentiator (3.1.0)
+  - iOSSnapshotTestCase (6.0.3):
+    - iOSSnapshotTestCase/SwiftSupport (= 6.0.3)
+  - iOSSnapshotTestCase/Core (6.0.3)
+  - iOSSnapshotTestCase/SwiftSupport (6.0.3):
+    - iOSSnapshotTestCase/Core
+  - RxBlocking (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - RxCocoa (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxDataSources (3.1.0):
@@ -10,32 +17,43 @@ PODS:
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxSwift (4.5.0)
+  - RxTest (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - SnapKit (5.0.0)
 
 DEPENDENCIES:
   - Action
+  - iOSSnapshotTestCase
+  - RxBlocking
   - RxCocoa
   - RxDataSources
   - RxSwift
+  - RxTest
   - SnapKit (~> 5.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Action
     - Differentiator
+    - iOSSnapshotTestCase
+    - RxBlocking
     - RxCocoa
     - RxDataSources
     - RxSwift
+    - RxTest
     - SnapKit
 
 SPEC CHECKSUMS:
   Action: 689181e4c3f6566844178d8a7da6fef39a9597fc
   Differentiator: be49ca3408f0ecfc761e4c7763d20c62be01b9ad
+  iOSSnapshotTestCase: 944a73f6d9676302811a86c0cf35f0e6ef5ab2a0
+  RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxDataSources: a843bad90c29817f5923ec8163f4af2de084ceb3
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  RxTest: 3ccb66bfbace0bf7df1c43a7c75d046f8ce60372
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
 
-PODFILE CHECKSUM: 89c3d8468dfdce009210f1e496550b485b2bc1d3
+PODFILE CHECKSUM: 94090b9d3512e74161c77e19d1fad09ef1f91304
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1

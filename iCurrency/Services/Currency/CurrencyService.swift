@@ -27,16 +27,18 @@ extension CurrencyService: CurrencyServiceEndpoints {
             .flatMap { response -> Observable<Result<[Currency], ApiError>> in
                 switch response {
                 case let .success(data):
-                    var currencies: [Currency] = []
                     if let rates = data["rates"] as? JSON {
+                        var currencies: [Currency] = []
                         currencies.append(Currency(name: baseCurrency, rate: 1.0000))
                         let keys = Array(rates.keys).sorted()
                         keys.forEach { key in
                             let value = rates[key] as? Double ?? 0.0
                             currencies.append(Currency(name: key, rate: value))
                         }
+                        return .just(.success(currencies))
+                    } else {
+                      return .just(.failure(.invalidResponse))
                     }
-                    return .just(.success(currencies))
                 case let .failure(error):
                     return Observable.just(.failure(error))
                 }
