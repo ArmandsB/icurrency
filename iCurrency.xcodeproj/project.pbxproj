@@ -139,8 +139,8 @@
 				2C5FF7812274BF8B005B7C65 /* Helpers */,
 				2C5FF77F2274BF83005B7C65 /* Models */,
 				2C5FF7832274BFA2005B7C65 /* Services */,
-				2C0FA8C62274BB14007155EC /* Supporting files */,
 				2C5FF7802274BF88005B7C65 /* Views */,
+				2C0FA8C62274BB14007155EC /* Supporting files */,
 			);
 			path = iCurrency;
 			sourceTree = "<group>";
