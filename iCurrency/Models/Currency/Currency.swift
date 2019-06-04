@@ -16,8 +16,4 @@ struct Currency: Equatable {
   static func == (lhs: Currency, rhs: Currency) -> Bool {
     return lhs.name == rhs.name
   }
-
-  func converRate(to currency: Currency) -> Double {
-    return currency.rate / self.rate
-  }
 }

@@ -77,7 +77,7 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
                                                            activeCurrencyObservable) { ($0, $1) }
 
     rateAttributedString = combineCurrenyAndActive.map { currency, activeCurrency -> NSAttributedString in
-      let convertRate = currency.converRate(to: activeCurrency.outputs.currency.value)
+      let convertRate = currency.convertRate(to: activeCurrency.outputs.currency.value)
       let convertRateFormatted = currencyFormatter.string(from: NSNumber(value: convertRate)) ?? " - "
       var text = "1 \(currency.name) = \(convertRateFormatted)"
       text += " \(activeCurrency.outputs.currency.value.name)" // 1 USD = 1.1111 EUR
@@ -135,7 +135,7 @@ class CurrencyCellViewModel: CurrencyCellViewModelInput, CurrencyCellViewModelOu
           .observeOn(MainScheduler.instance)
           .subscribe(onNext: { [weak self] newInputValue, activeCurrency, currency in
             guard let self = self, newInputValue > 0 else { return }
-            let rate = activeCurrency.converRate(to: currency)
+            let rate = activeCurrency.convertRate(to: currency)
             self.inputValueProperty.accept(rate * newInputValue)
           })
       })

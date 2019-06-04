@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,9 +23,9 @@
 		2C5FF79B2274C483005B7C65 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79A2274C483005B7C65 /* ApiRequest.swift */; };
 		2C5FF79D2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79C2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift */; };
 		2C5FF79F2274C606005B7C65 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5FF79E2274C606005B7C65 /* ApiService.swift */; };
+		2C638E6822A63B380028789D /* Currency+Rate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C638E6722A63B380028789D /* Currency+Rate.swift */; };
 		2CB24A152275A32900D444C8 /* CurrencyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A142275A32900D444C8 /* CurrencyTableViewCell.swift */; };
 		2CB24A182275A94900D444C8 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A172275A94900D444C8 /* UIColor+hex.swift */; };
-		2CB24A1B2275CB2C00D444C8 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */; };
 		2CB24A1E2275ED2500D444C8 /* UITextField+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */; };
 		2CD3A2972276C91B007F6DEC /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3A2962276C91B007F6DEC /* TestConstants.swift */; };
 		2CD3A29C2276C97A007F6DEC /* TestMockups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3A29B2276C97A007F6DEC /* TestMockups.swift */; };
@@ -72,9 +72,9 @@
 		2C5FF79A2274C483005B7C65 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		2C5FF79C2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceEndpoints.swift; sourceTree = "<group>"; };
 		2C5FF79E2274C606005B7C65 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
+		2C638E6722A63B380028789D /* Currency+Rate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Rate.swift"; sourceTree = "<group>"; };
 		2CB24A142275A32900D444C8 /* CurrencyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTableViewCell.swift; sourceTree = "<group>"; };
 		2CB24A172275A94900D444C8 /* UIColor+hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
-		2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+DoneButton.swift"; sourceTree = "<group>"; };
 		2CD3A2962276C91B007F6DEC /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		2CD3A29B2276C97A007F6DEC /* TestMockups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMockups.swift; sourceTree = "<group>"; };
@@ -196,7 +196,6 @@
 		2C5FF7812274BF8B005B7C65 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				2CB24A192275CB1B00D444C8 /* Keyboardhandler */,
 				2CB24A162275A93300D444C8 /* Extensions */,
 				2C5FF7982274C3AF005B7C65 /* Constants.swift */,
 			);
@@ -288,16 +287,9 @@
 				2CB24A172275A94900D444C8 /* UIColor+hex.swift */,
 				2CB24A1D2275ED2500D444C8 /* UITextField+DoneButton.swift */,
 				2CD3A2A12276CAF4007F6DEC /* Data+JSON.swift */,
+				2C638E6722A63B380028789D /* Currency+Rate.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		2CB24A192275CB1B00D444C8 /* Keyboardhandler */ = {
-			isa = PBXGroup;
-			children = (
-				2CB24A1A2275CB2C00D444C8 /* KeyboardHandler.swift */,
-			);
-			path = Keyboardhandler;
 			sourceTree = "<group>";
 		};
 		2CD3A2952276C8EE007F6DEC /* Helpers */ = {
@@ -529,32 +521,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iCurrencyTests/Pods-iCurrencyTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
-				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/RxBlocking/RxBlocking.framework",
-				"${BUILT_PRODUCTS_DIR}/RxTest/RxTest.framework",
-				"${BUILT_PRODUCTS_DIR}/iOSSnapshotTestCase/FBSnapshotTestCase.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-iCurrencyTests/Pods-iCurrencyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxBlocking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxTest.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSnapshotTestCase.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-iCurrencyTests/Pods-iCurrencyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -611,26 +582,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-iCurrency/Pods-iCurrency-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Action/Action.framework",
-				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
-				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
-				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
-				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-iCurrency/Pods-iCurrency-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Action.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-iCurrency/Pods-iCurrency-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -644,7 +600,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CB24A1B2275CB2C00D444C8 /* KeyboardHandler.swift in Sources */,
 				2C5FF7952274C21C005B7C65 /* Currency.swift in Sources */,
 				2C0FA8A72274BB07007155EC /* AppDelegate.swift in Sources */,
 				2C5FF79F2274C606005B7C65 /* ApiService.swift in Sources */,
@@ -657,6 +612,7 @@
 				2C5FF79D2274C5AE005B7C65 /* CurrencyServiceEndpoints.swift in Sources */,
 				2C5FF78E2274C15B005B7C65 /* CurrencyCellViewModel.swift in Sources */,
 				2CB24A1E2275ED2500D444C8 /* UITextField+DoneButton.swift in Sources */,
+				2C638E6822A63B380028789D /* Currency+Rate.swift in Sources */,
 				2C5FF7892274C0E9005B7C65 /* CurrencyView.swift in Sources */,
 				2C5FF7852274BFBF005B7C65 /* CurrencyViewController.swift in Sources */,
 				2C5FF79B2274C483005B7C65 /* ApiRequest.swift in Sources */,

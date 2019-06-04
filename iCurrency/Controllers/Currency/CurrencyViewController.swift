@@ -8,6 +8,7 @@
 
 import UIKit
 import RxDataSources
+import RxKeyboard
 import RxSwift
 
 class CurrencyViewController: UIViewController {
@@ -15,8 +16,6 @@ class CurrencyViewController: UIViewController {
   let currencyView = CurrencyView()
   let viewModel: CurrencyViewModelType
   let disposeBag = DisposeBag()
-  private var reloadTimer: Timer?
-  private let keyboardHandler = KeyboardHandler()
 
   init(service: CurrencyServiceEndpoints = CurrencyService(service: ApiClient.shared), baseCurrency: String = "EUR") {
     viewModel = CurrencyViewModel(service: service, baseCurrency: baseCurrency)
@@ -43,7 +42,7 @@ class CurrencyViewController: UIViewController {
     currencyView.tableView.keyboardDismissMode = .onDrag
 
     self.setupTimer()
-    self.keyboardHandler.delegate = self
+    self.setupKeyboardListener()
     self.bindViewModels()
     self.viewModel.inputs.fetchDataAction.execute()
   }
@@ -131,28 +130,26 @@ private extension CurrencyViewController {
     guard Constants.Tests.isUnitTesting() == false else { return }
     #endif
 
-    let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
-      guard let self = self else { return }
-      self.viewModel.inputs.fetchDataAction.execute()
-    })
-    RunLoop.main.add(timer, forMode: .common) // To unblock when scrolling
-    self.reloadTimer?.invalidate()
-    self.reloadTimer = timer
+    _ = Observable<Int>
+      .interval(1.0, scheduler: MainScheduler.instance)
+      .subscribe(onNext: { [weak self] _ in
+        guard let self = self else { return }
+        self.viewModel.inputs.fetchDataAction.execute()
+      })
+      .disposed(by: disposeBag)
   }
 }
 
-extension CurrencyViewController: KeyboardHandlerDelegate {
+private extension CurrencyViewController {
 
-  func keyboardFrameDidChange(size: CGRect,
-                              animation: UIView.AnimationCurve,
-                              duration: TimeInterval,
-                              userInfo: JSON) {
-
-    UIView.animate(withDuration: duration, delay: 0.0, options: animation.toOptions(), animations: {
-      self.currencyView.tableView.contentInset.bottom = size.height
-      self.currencyView.tableView.scrollIndicatorInsets = self.currencyView.tableView.contentInset
-    }, completion: { _ in
-
-    })
+  func setupKeyboardListener() {
+    RxKeyboard.instance.visibleHeight
+      .drive(onNext: { [weak self] keyboardVisibleHeight in
+        guard let self = self else { return }
+        self.currencyView.tableView.contentInset.bottom = keyboardVisibleHeight
+        self.currencyView.tableView.scrollIndicatorInsets = self.currencyView.tableView.contentInset
+      })
+      .disposed(by: disposeBag)
   }
+
 }

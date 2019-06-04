@@ -7,10 +7,13 @@ inhibit_all_warnings!
 
 def common_pods
   pod 'SnapKit', '~> 5.0.0'
+  # RX
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'Action'
+  pod 'RxKeyboard'
+  
   pod 'SwiftLint', :configurations => ['Debug']
 end
 
