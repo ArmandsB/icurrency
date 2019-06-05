@@ -8,9 +8,9 @@ Real-time Currency list iOS app.
 - Convert base currency to other
 
 # Setup
-
-1. Clone
-2. pod install
+0. Install cocoapods. Open terminal and call this function `sudo gem install cocoapods`
+1. Git clone
+2. Open project directory and call `pod install`
 3. Enjoy
 
 # Architecture
