@@ -195,7 +195,7 @@ extension CurrencyCellViewModelTests {
     currencyFormatter.minimumFractionDigits = 4
     currencyFormatter.maximumFractionDigits = 4
     
-    let convertRate = currency.converRate(to: activeCurrency)
+    let convertRate = currency.convertRate(to: activeCurrency)
     let convertRateFormatted = currencyFormatter.string(from: NSNumber(value: convertRate)) ?? " - "
     let text = "1 \(currency.name) = \(convertRateFormatted) \(activeCurrency.name)"
     

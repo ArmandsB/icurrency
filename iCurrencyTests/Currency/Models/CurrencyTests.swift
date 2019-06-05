@@ -26,7 +26,7 @@ class CurrencyTests: XCTestCase {
   func testCurrencyConvert() {
     let currency1 = Currency(name: "CZK", rate: 1.4543)
     let currency2 = Currency(name: "USD", rate: 1.1111)
-    let roundRate = Double(round(10000*currency1.converRate(to: currency2))/10000)
+    let roundRate = Double(round(10000*currency1.convertRate(to: currency2))/10000)
     XCTAssertEqual(roundRate, 0.7640)
   }
 }
